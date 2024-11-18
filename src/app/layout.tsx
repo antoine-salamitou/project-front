@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { AuthProvider } from "@/contexts/authContext";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -12,6 +14,21 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+function Header() {
+  return (
+    <header className="p-4 bg-gray-100 shadow-sm">
+      <nav className="flex gap-4">
+        <Link href="/data" className="hover:underline">
+          Data
+        </Link>
+        <Link href="/admin" className="hover:underline">
+          Admin
+        </Link>
+      </nav>
+    </header>
+  );
+}
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +45,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AuthProvider>
+          <Header />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
